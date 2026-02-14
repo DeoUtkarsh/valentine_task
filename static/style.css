@@ -1,0 +1,327 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #ffeef8 0%, #ffc9e5 50%, #ffb3d9 100%);
+    overflow: hidden;
+}
+
+/* 3D Tilt & Visul Upgrades */
+/* 3D Tilt Removed - Keeping Background */
+.container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.85);
+    /* Slightly transparent */
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 60px 50px;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    animation: fadeIn 0.6s ease-out;
+    box-shadow: 0 30px 60px rgba(255, 105, 180, 0.4),
+        0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.question {
+    font-size: 32px;
+    font-weight: 800;
+    /* Bolder */
+    background: linear-gradient(45deg, #ff1744, #ff6b9d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 40px;
+    line-height: 1.4;
+    text-shadow: 0 4px 10px rgba(255, 23, 68, 0.2);
+    /* Soft glow */
+    transform: none;
+    /* No 3D pop */
+}
+
+/* Emoji Size Increased */
+.emoji {
+    font-size: 100px;
+    margin-bottom: 30px;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.button-container {
+    display: flex;
+    gap: 30px;
+    /* Increased gap */
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Floating Hearts Background */
+.hearts-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    /* Let clicks pass through */
+    z-index: -1;
+    /* Behind everything */
+    overflow: hidden;
+}
+
+.heart {
+    position: absolute;
+    bottom: -50px;
+    /* Start below screen */
+    animation: floatUp linear forwards;
+    color: rgba(255, 255, 255, 0.6);
+    filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.8));
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Enhanced Button Glow for YES */
+.btn-yes {
+    background: linear-gradient(135deg, #ff6b9d 0%, #ff1744 100%);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-yes::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(45deg) translateY(-100%);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% {
+        transform: rotate(45deg) translateY(-100%);
+    }
+
+    20% {
+        transform: rotate(45deg) translateY(100%);
+    }
+
+    100% {
+        transform: rotate(45deg) translateY(100%);
+    }
+}
+
+.btn {
+    padding: 16px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    /* Changed to flex for better centering */
+    justify-content: center;
+    align-items: center;
+    min-width: 120px;
+    /* Ensure equal width */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-yes:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 23, 68, 0.4);
+}
+
+.btn-yes:active {
+    transform: translateY(-1px);
+}
+
+.btn-no {
+    background: #9e9e9e;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.btn-no:hover {
+    background: #757575;
+}
+
+/* Success Page Styles */
+.success-container {
+    background: linear-gradient(135deg, #fff0f5 0%, #ffe4f0 50%, #ffd6e8 100%);
+}
+
+.success-card {
+    padding: 30px 20px;
+    /* Reduced padding */
+    max-width: 400px;
+    /* Constrain width */
+    margin: 0 auto;
+    animation: scaleIn 0.5s ease-out;
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.success-title {
+    font-size: 48px;
+    font-weight: 700;
+    color: #ff1744;
+    margin-bottom: 15px;
+    animation: bounce 1s ease-in-out;
+}
+
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.success-subtitle {
+    font-size: 24px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 30px;
+}
+
+.gif-container {
+    margin: 30px 0;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.celebration-gif {
+    width: 100%;
+    max-width: 300px;
+    /* Smaller max width */
+    height: auto;
+    display: block;
+    border-radius: 20px;
+}
+
+.love-message {
+    font-size: 32px;
+    font-weight: 700;
+    color: #ff1744;
+    margin-top: 30px;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(1.05);
+    }
+
+    50% {
+        transform: scale(1);
+    }
+}
+
+/* Responsive Design (Keep existing) */
+@media (max-width: 600px) {
+    .card {
+        padding: 40px 30px;
+    }
+
+    .question {
+        font-size: 24px;
+    }
+
+    .success-title {
+        font-size: 36px;
+    }
+
+    .success-subtitle {
+        font-size: 20px;
+    }
+
+    .love-message {
+        font-size: 24px;
+    }
+
+    .btn {
+        padding: 14px 30px;
+        font-size: 16px;
+    }
+}

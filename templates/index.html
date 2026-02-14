@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day Proposal 💕</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Floating Hearts Background -->
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="container">
+        <div class="card" id="mainCard">
+            <div class="emoji">💝</div>
+            <h1 class="question">Hey Beautiful, will you be my Valentine?</h1>
+
+            <div class="button-container">
+                <a href="/yes" class="btn btn-yes">YES</a>
+                <button id="noBtn" class="btn btn-no">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const card = document.querySelector('.card');
+        const yesBtn = document.querySelector('.btn-yes');
+        const heartsBg = document.getElementById('heartsBg');
+        let isMoving = false;
+
+        // --- 1. Floating Hearts Background Generator ---
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's'; // 4-7s float time
+            heart.style.opacity = Math.random() * 0.5 + 0.1; // Random opacity
+            heart.style.fontSize = Math.random() * 20 + 10 + 'px'; // Random size
+
+            heartsBg.appendChild(heart);
+
+            // Remove heart after animation ends
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
+
+        // Generate hearts every 400ms
+        setInterval(createHeart, 400);
+
+        // --- Existing NO Button Logic Below ---
+
+        // 8 positions JUST OUTSIDE the card (larger radius)
+        // Card is aprox 500px wide, so we need > 250px x-offset
+        const positions = [
+            { x: 0, y: -220 },     // Top (above card)
+            { x: 280, y: -150 },   // Top-Right
+            { x: 320, y: 0 },      // Right
+            { x: 280, y: 150 },    // Bottom-Right
+            { x: 0, y: 220 },      // Bottom (below card)
+            { x: -280, y: 150 },   // Bottom-Left
+            { x: -320, y: 0 },     // Left
+            { x: -280, y: -150 }   // Top-Left
+        ];
+
+        let currentIndex = 0;
+
+        function startMovement() {
+            if (!isMoving) {
+                // FIRST TIME HOVER: Detach from card and move to body
+                const rect = noBtn.getBoundingClientRect();
+
+                // Create a placeholder to keep layout stable (prevents YES button moving)
+                const placeholder = document.createElement('div');
+                placeholder.style.width = rect.width + 'px';
+                placeholder.style.height = rect.height + 'px';
+                placeholder.style.display = 'inline-block'; // replicate button display
+
+                // Insert placeholder before moving the button
+                noBtn.parentNode.insertBefore(placeholder, noBtn);
+
+                // Set initial fixed position to match exactly where it is now
+                noBtn.style.position = 'fixed';
+                noBtn.style.left = rect.left + 'px';
+                noBtn.style.top = rect.top + 'px';
+                noBtn.style.width = rect.width + 'px'; // Maintain width
+                noBtn.style.zIndex = '9999';
+                noBtn.style.margin = '0'; // Reset any margins
+
+                // Move element to body
+                document.body.appendChild(noBtn);
+
+                isMoving = true;
+
+                // Trigger first move immediately after a microtask
+                setTimeout(moveButton, 50);
+            } else {
+                moveButton();
+            }
+        }
+
+        function moveButton() {
+            // 1. Get the Card's exact position on screen
+            const cardRect = card.getBoundingClientRect();
+            const cardCenterX = cardRect.left + (cardRect.width / 2);
+            const cardCenterY = cardRect.top + (cardRect.height / 2);
+
+            // 2. Get the next position offset
+            const pos = positions[currentIndex];
+
+            // 3. Get Button Dimensions
+            const btnWidth = noBtn.offsetWidth || 100;
+            const btnHeight = noBtn.offsetHeight || 50;
+
+            // 4. Calculate new coordinates: 
+            // (Card Center) + (Offset) - (Half Button Size)
+            const newX = cardCenterX + pos.x - (btnWidth / 2);
+            const newY = cardCenterY + pos.y - (btnHeight / 2);
+
+            // 5. Apply Styles
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+            noBtn.style.transition = 'all 0.4s ease'; // Slightly slower for smoother 'orbit'
+
+            // 6. Move to next index
+            currentIndex = (currentIndex + 1) % positions.length;
+        }
+
+        // Add event listener for hover
+        noBtn.addEventListener('mouseenter', startMovement);
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            startMovement();
+        });
+    </script>
+</body>
+
+</html>
