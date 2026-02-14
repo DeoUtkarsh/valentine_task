@@ -1,14 +1,14 @@
 from flask import Flask, render_template, send_file
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder='.')
 
 @app.route('/')
 def index():
     """Main landing page with the proposal question"""
     return render_template('index.html')
 
-@app.route('/yes')
+@app.route('/success.html')
 def success():
     """Success page when she clicks Yes"""
     return render_template('success.html')
